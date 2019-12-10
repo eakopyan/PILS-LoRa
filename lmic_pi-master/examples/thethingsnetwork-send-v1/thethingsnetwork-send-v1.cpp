@@ -84,7 +84,7 @@ lmic_pinmap pins = {
 
 void onEvent (ev_t ev) {
     //debug_event(ev);
-
+    cout << "ev";
     switch(ev) {
       // scheduled data sent (optionally data received)
       // note: this includes the receive window!
@@ -99,9 +99,11 @@ void onEvent (ev_t ev) {
        default:
           break;
     }
+    cout << "ev done";
 }
 
 static void do_send(osjob_t* j){
+    cout << "Sending";
       time_t t=time(NULL);
       fprintf(stdout, "[%x] (%ld) %s\n", hal_ticks(), t, ctime(&t));
       // Show TX channel (channel numbers are local to LMIC)
@@ -122,10 +124,11 @@ static void do_send(osjob_t* j){
     }
     // Schedule a timed job to run at the given timestamp (absolute system time)
     os_setTimedCallback(j, os_getTime()+sec2osticks(20), do_send);
-
+    cout << "Sent";
 }
 
 void setup() {
+    cout << "set";
   // LMIC init
   wiringPiSetup();
 
@@ -146,6 +149,7 @@ void setup() {
   // Set data rate and transmit power (note: txpow seems to be ignored by the library)
   LMIC_setDrTxpow(DR_SF7,14);
   //
+  cout << "set done";
 }
 
 void loop() {
